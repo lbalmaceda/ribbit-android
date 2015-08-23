@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
@@ -82,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
                         takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
                         takeVideoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10);
                         takeVideoIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
-                        startActivityForResult(takeVideoIntent, TAKE_PHOTO_REQUEST);
+                        startActivityForResult(takeVideoIntent, TAKE_VIDEO_REQUEST);
                     }
                     break;
                 case 2: // Choose picture
@@ -257,6 +256,19 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
                 mediaScanIntent.setData(mMediaUri);
                 sendBroadcast(mediaScanIntent);
             }
+
+            Intent recipientsIntent = new Intent(this, RecipientsActivity.class);
+            recipientsIntent.setData(mMediaUri);
+
+            String fileType;
+
+            if (requestCode == TAKE_PHOTO_REQUEST || requestCode == PICK_PHOTO_REQUEST) {
+                fileType = ParseConstants.TYPE_IMAGE;
+            } else {
+                fileType = ParseConstants.TYPE_VIDEO;
+            }
+            recipientsIntent.putExtra(ParseConstants.KEY_FILE_TYPE, fileType);
+            startActivity(recipientsIntent);
         } else if (resultCode != RESULT_CANCELED) {
             Toast.makeText(this, R.string.general_error, Toast.LENGTH_SHORT).show();
         }
@@ -309,33 +321,6 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
     @Override
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
     }
 
 }
