@@ -17,6 +17,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -75,9 +76,26 @@ public class InboxFragment extends ListFragment {
             intent.setData(fileUri);
             startActivity(intent);
         } else if (messageType.equals(ParseConstants.TYPE_VIDEO)) {
+            // View video
             Intent intent = new Intent(Intent.ACTION_VIEW, fileUri);
             intent.setDataAndType(fileUri, "video/*");
             startActivity(intent);
+        }
+
+        // Delete the message
+        List<String> ids = message.getList(ParseConstants.KEY_RECIPIENTS_ID);
+        if (ids.size() == 1) {
+            // Last recipient -> delete the message
+            message.deleteInBackground();
+        } else {
+            // Remove recipient and save
+            ids.remove(ParseUser.getCurrentUser().getObjectId());
+
+            ArrayList<String> idsToRemove = new ArrayList<>();
+            idsToRemove.add(ParseUser.getCurrentUser().getObjectId());
+
+            message.removeAll(ParseConstants.KEY_RECIPIENTS_ID, idsToRemove);
+            message.saveInBackground();
         }
     }
 }
