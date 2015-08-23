@@ -17,6 +17,7 @@ public final class ParseConstants {
     public static final String KEY_FILE_TYPE = "fileType";
 
     public static final String KEY_MEDIA_URI = "mediaUri";
+    public static final String KEY_CREATED_AT = "createdAt";
 
     //Types
     public static final String TYPE_IMAGE = "image";
