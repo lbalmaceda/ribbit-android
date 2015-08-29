@@ -59,11 +59,15 @@ public class MessageAdapter extends ArrayAdapter<ParseObject> {
         return convertView;
     }
 
+    public void refill(List<ParseObject> messages) {
+        mMessages.clear();
+        mMessages.addAll(messages);
+        notifyDataSetChanged();
+    }
+
     private static class ViewHolder {
         ImageView iconImageView;
         TextView nameLabel;
         TextView timeLabel;
-
-
     }
 }

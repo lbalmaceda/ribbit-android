@@ -60,15 +60,26 @@ public class InboxFragment extends ListFragment {
             @Override
             public void done(List<ParseObject> messages, ParseException e) {
                 getActivity().setProgressBarIndeterminateVisibility(false);
+
                 if (mSwipeRefreshLayout.isRefreshing()) {
                     mSwipeRefreshLayout.setRefreshing(false);
                 }
                 if (e == null) {
                     // Success
                     mMessages = messages;
-                    MessageAdapter adapter = new MessageAdapter(getListView().getContext(), messages);
-                    setListAdapter(adapter);
-
+                    String[] usernames = new String[mMessages.size()];
+                    int i = 0;
+                    for (ParseObject message : mMessages) {
+                        usernames[i] = message.getString(ParseConstants.KEY_SENDER_NAME);
+                        i++;
+                    }
+                    if (getListView().getAdapter() == null) {
+                        MessageAdapter adapter = new MessageAdapter(getListView().getContext(), messages);
+                        setListAdapter(adapter);
+                    } else {
+                        //Refill
+                        ((MessageAdapter) getListView().getAdapter()).refill(mMessages);
+                    }
                 } else {
                     // Error
                     Log.e(TAG, e.getMessage());
