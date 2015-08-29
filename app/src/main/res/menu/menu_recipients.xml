@@ -8,5 +8,5 @@
         android:title="@string/menu_send_label"
         android:visible="false"
         app:showAsAction="always"
-        android:icon="@android:drawable/ic_menu_send"/>
+        android:icon="@drawable/ic_menu_send"/>
 </menu>
