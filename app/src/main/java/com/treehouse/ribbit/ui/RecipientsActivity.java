@@ -20,7 +20,7 @@ public class RecipientsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipients);
+        setContentView(R.layout.activity_base);
 
         Uri mediaUri = getIntent().getData();
         String fileType = getIntent().getExtras().getString(ParseConstants.KEY_FILE_TYPE);

@@ -1,14 +1,20 @@
 package com.treehouse.ribbit.ui;
 
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -17,22 +23,38 @@ import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.treehouse.ribbit.R;
+import com.treehouse.ribbit.adapters.UserAdapter;
 import com.treehouse.ribbit.utils.ParseConstants;
 
 import java.util.List;
 
-public class EditFriendsFragment extends ListFragment {
+public class EditFriendsFragment extends Fragment {
 
     private static final String TAG = EditFriendsFragment.class.getSimpleName();
 
     protected List<ParseUser> mUsers;
     protected ParseRelation<ParseUser> mFriendsRelation;
     protected ParseUser mCurrentUser;
+    protected GridView mGridView;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        mGridView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        mGridView.setOnItemClickListener(mOnItemClickListener);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View rootView = inflater.inflate(R.layout.user_grid, null);
+        mGridView = (GridView) rootView.findViewById(R.id.friendsGrid);
+
+        TextView emptyTextView = (TextView) rootView.findViewById(android.R.id.empty);
+        mGridView.setEmptyView(emptyTextView);
+
+        return rootView;
     }
 
     @Override
@@ -59,15 +81,19 @@ public class EditFriendsFragment extends ListFragment {
                         usernames[i] = user.getUsername();
                         i++;
                     }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getListView().getContext(), android.R.layout.simple_list_item_checked, usernames);
-                    setListAdapter(adapter);
+
+                    if (mGridView.getAdapter() == null) {
+                        UserAdapter adapter = new UserAdapter(getActivity(), mUsers);
+                        mGridView.setAdapter(adapter);
+                    } else {
+                        ((UserAdapter) mGridView.getAdapter()).refill(mUsers);
+                    }
 
                     addFriendCheckmarks();
-
                 } else {
                     Log.e(TAG, e.getMessage());
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getListView().getContext());
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setMessage(e.getMessage())
                             .setTitle(R.string.error_title)
                             .setPositiveButton(android.R.string.ok, null);
@@ -89,7 +115,7 @@ public class EditFriendsFragment extends ListFragment {
 
                         for (ParseUser friend : friends) {
                             if (friend.getObjectId().equals(user.getObjectId())) {
-                                getListView().setItemChecked(i, true);
+                                mGridView.setItemChecked(i, true);
                             }
                         }
                     }
@@ -99,27 +125,6 @@ public class EditFriendsFragment extends ListFragment {
                 }
             }
         });
-    }
-
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-
-        if (l.isItemChecked(position)) {
-            mFriendsRelation.add(mUsers.get(position));
-        } else {
-            mFriendsRelation.remove(mUsers.get(position));
-        }
-
-        mCurrentUser.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, e.getMessage());
-                }
-            }
-        });
-
     }
 
     @Override
@@ -137,4 +142,29 @@ public class EditFriendsFragment extends ListFragment {
 
         return super.onOptionsItemSelected(item);
     }
+
+    protected AdapterView.OnItemClickListener mOnItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            ImageView checkImageView = (ImageView) view.findViewById(R.id.checkImageView);
+
+            if (mGridView.isItemChecked(position)) {
+                mFriendsRelation.add(mUsers.get(position));
+                checkImageView.setVisibility(View.VISIBLE);
+            } else {
+                mFriendsRelation.remove(mUsers.get(position));
+                checkImageView.setVisibility(View.INVISIBLE);
+            }
+
+            mCurrentUser.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e != null) {
+                        Log.e(TAG, e.getMessage());
+                    }
+                }
+            });
+        }
+    };
+
 }
