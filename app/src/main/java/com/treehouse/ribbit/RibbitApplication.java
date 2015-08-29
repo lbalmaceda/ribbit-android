@@ -15,7 +15,8 @@ public class RibbitApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Parse.enableLocalDatastore(this);
-        Parse.initialize(this, "yqnehBsAoXjElOkJNnPVljHCxr6cTk7s07sV2uTG", "pppxZ8U80EpG9YWnl4s7qHBm6KKVk3VLxJDfkTUE");
+        //FIXME: Change AppId and ClientKey to your Parse App.
+        Parse.initialize(this, "y9nehBsAoXjElOkJNnPVljHCxr6cTk7s07sV2uTG", "ppxxZ8U80EpG9YWnl4s7qHBm6KKVk3VLxJDfkTUE");
         ParseInstallation.getCurrentInstallation().saveInBackground();
     }
 
