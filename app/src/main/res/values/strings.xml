@@ -11,7 +11,7 @@
     <string name="sign_up_text">Don\'t have and account? Sign up!</string>
     <string name="title_activity_sign_up">SignUpActivity</string>
     <string name="email_hint">Email</string>
-    <string name="sign_up_button_label">Sign Up</string>
+    <string name="sign_up_button_label">SIGN UP</string>
     <string name="signup_error_message">Please make sure you enter a username, password and email address!</string>
     <string name="signup_error_title">Oops!</string>
     <string name="login_error_message">Please make sure you enter a username and password!</string>
@@ -48,4 +48,6 @@
     <string name="action_settings">Settings</string>
     <string name="content_desc_background">Ribbit Frog Background Image</string>
     <string name="subtitle">A Treehouse Project</string>
+    <string name="cancel_button_label">CANCEL</string>
+    <string name="content_desc_button_divider">Button divider</string>
 </resources>

@@ -20,6 +20,7 @@ public class SignUpActivity extends AppCompatActivity {
     protected EditText mPassword;
     protected EditText mEmail;
     protected Button mSignUpButton;
+    protected Button mCancelButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +79,14 @@ public class SignUpActivity extends AppCompatActivity {
                         }
                     });
                 }
+            }
+        });
+
+        mCancelButton = (Button) findViewById(R.id.cancelButton);
+        mCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }
