@@ -1,4 +1,4 @@
-package com.treehouse.ribbit;
+package com.treehouse.ribbit.utils;
 
 /**
  * Created by lbalmaceda on 8/22/15.

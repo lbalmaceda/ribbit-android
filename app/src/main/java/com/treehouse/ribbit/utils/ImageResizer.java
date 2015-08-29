@@ -1,4 +1,4 @@
-package com.treehouse.ribbit;
+package com.treehouse.ribbit.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

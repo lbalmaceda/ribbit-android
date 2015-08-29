@@ -1,9 +1,10 @@
-package com.treehouse.ribbit;
+package com.treehouse.ribbit.ui;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,9 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.treehouse.ribbit.R;
+import com.treehouse.ribbit.adapters.MessageAdapter;
+import com.treehouse.ribbit.utils.ParseConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +32,15 @@ public class InboxFragment extends ListFragment {
     private static final String TAG = InboxFragment.class.getSimpleName();
 
     protected List<ParseObject> mMessages;
+    protected SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_inbox, container, false);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeRefreshLayout);
+        mSwipeRefreshLayout.setOnRefreshListener(mOnRefreshListener);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.swipe_refresh_1, R.color.swipe_refresh_2, R.color.swipe_refresh_3, R.color.swipe_refresh_4);
         return rootView;
     }
 
@@ -41,6 +49,10 @@ public class InboxFragment extends ListFragment {
         super.onResume();
         getActivity().setProgressBarIndeterminateVisibility(true);
 
+        retrieveMessages();
+    }
+
+    private void retrieveMessages() {
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(ParseConstants.CLASS_MESSAGES);
         query.whereEqualTo(ParseConstants.KEY_RECIPIENTS_ID, ParseUser.getCurrentUser().getObjectId());
         query.orderByDescending(ParseConstants.KEY_CREATED_AT);
@@ -48,6 +60,9 @@ public class InboxFragment extends ListFragment {
             @Override
             public void done(List<ParseObject> messages, ParseException e) {
                 getActivity().setProgressBarIndeterminateVisibility(false);
+                if (mSwipeRefreshLayout.isRefreshing()) {
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
                 if (e == null) {
                     // Success
                     mMessages = messages;
@@ -98,4 +113,11 @@ public class InboxFragment extends ListFragment {
             message.saveInBackground();
         }
     }
+
+    protected SwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            retrieveMessages();
+        }
+    };
 }

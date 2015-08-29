@@ -1,4 +1,4 @@
-package com.treehouse.ribbit;
+package com.treehouse.ribbit.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -14,6 +14,8 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
+import com.treehouse.ribbit.R;
+import com.treehouse.ribbit.utils.ParseConstants;
 
 import java.util.List;
 

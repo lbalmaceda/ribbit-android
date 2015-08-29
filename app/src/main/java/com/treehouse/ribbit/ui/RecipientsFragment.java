@@ -1,4 +1,4 @@
-package com.treehouse.ribbit;
+package com.treehouse.ribbit.ui;
 
 import android.content.Context;
 import android.net.Uri;
@@ -25,6 +25,9 @@ import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.treehouse.ribbit.R;
+import com.treehouse.ribbit.utils.FileHelper;
+import com.treehouse.ribbit.utils.ParseConstants;
 
 import java.util.ArrayList;
 import java.util.List;

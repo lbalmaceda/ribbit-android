@@ -2,7 +2,7 @@
 <resources>
 
     <style name="Theme.Ribbit" parent="@style/Theme.AppCompat.Light">
-        <item name="colorAccent">@color/apptheme_color</item>
+        <item name="colorAccent">@color/ribbit_color</item>
 
         <item name="actionBarItemBackground">@drawable/selectable_background_ribbit</item>
         <item name="popupMenuStyle">@style/PopupMenu.Ribbit</item>
@@ -13,8 +13,15 @@
         <item name="actionModeBackground">@drawable/cab_background_top_ribbit</item>
         <item name="actionModeSplitBackground">@drawable/cab_background_bottom_ribbit</item>
         <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Ribbit</item>
-
         <item name="actionOverflowButtonStyle">@style/Theme.Ribbit.Overflow</item>
+
+        <item name="android:listViewStyle">@style/Theme.Ribbit.LightPurpleBackground</item>
+        <item name="android:gridViewStyle">@style/Theme.Ribbit.LightPurpleBackground</item>
+    </style>
+
+    <style name="Theme.Ribbit.LightPurpleBackground">
+        <item name="android:background">@color/light_purple_background</item>
+        <item name="android:divider">@null</item>
     </style>
 
     <style name="ActionBar.Solid.Ribbit" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
@@ -23,6 +30,8 @@
         <item name="backgroundSplit">@drawable/ab_bottom_solid_ribbit</item>
         <item name="progressBarStyle">@style/ProgressBar.Ribbit</item>
         <item name="titleTextStyle">@style/ActionBar.Solid.Ribbit.TitleTextStyle</item>
+        <item name="icon">@mipmap/ic_launcher</item>
+        <item name="displayOptions">showHome|showTitle</item>
     </style>
 
     <style name="ActionBar.Transparent.Ribbit" parent="@style/Widget.AppCompat.Light.ActionBar">

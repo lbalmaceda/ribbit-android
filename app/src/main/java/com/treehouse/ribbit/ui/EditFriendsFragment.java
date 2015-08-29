@@ -1,4 +1,4 @@
-package com.treehouse.ribbit;
+package com.treehouse.ribbit.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -7,7 +7,6 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -17,6 +16,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.treehouse.ribbit.R;
+import com.treehouse.ribbit.utils.ParseConstants;
 
 import java.util.List;
 
