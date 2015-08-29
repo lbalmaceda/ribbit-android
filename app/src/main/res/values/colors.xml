@@ -7,4 +7,7 @@
     <color name="focused_purple_button">#d6c3ed</color>
     <color name="background_purple">#3f2466</color>
     <color name="light_gray">#bbbbbb</color>
+    <color name="actionbar_background">#ffffff</color>
+    <color name="actionbar_stacked">#6a4b95</color>
+    <color name="actionbar_accent">#ba9dda</color>
 </resources>
